@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 
-#flask
+# flask setup
 app = Flask(__name__)
 app.secret_key = "secretkey"
 
+# database setup
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///students.db"
 db = SQLAlchemy(app)
 
-#stores users into database (students and teachers)
+# stores users into database: students, teachers, and admin
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
@@ -16,23 +17,23 @@ class User(db.Model):
     name = db.Column(db.String(100))
     role = db.Column(db.String(20))
 
-#stores course information
+# stores course information
 class Course(db.Model):
-    id = db.Column(db.Integer, primary_key=True) #course ID
-    name = db.Column(db.String(100)) #course name
-    teacher = db.Column(db.String(100)) #course teacher
-    time = db.Column(db.String(100)) #course times
-    capacity = db.Column(db.Integer) #course capacity
-    enrollments = db.relationship("Enrollment", backref="course") #number of enrollments
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    teacher = db.Column(db.String(100))
+    time = db.Column(db.String(100))
+    capacity = db.Column(db.Integer)
+    enrollments = db.relationship("Enrollment", backref="course")
 
-#allows students to enroll into classes 
+# connects students to courses and stores grades
 class Enrollment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     course_id = db.Column(db.Integer, db.ForeignKey("course.id"))
     grade = db.Column(db.Integer)
 
-#login page and redirect to pages based on login information
+# login page and redirect based on role
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -49,18 +50,20 @@ def login():
                 return redirect("/student")
             elif user.role == "teacher":
                 return redirect("/teacher")
+            elif user.role == "admin":
+                return redirect("/admin")
 
         return render_template("login.html", error="Invalid username or password")
 
     return render_template("login.html")
 
-#logout button
+# logout button
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-#student page
+# student page
 @app.route("/student")
 def student():
     user = User.query.get(session["user_id"])
@@ -75,7 +78,7 @@ def student():
         enrolled_ids=enrolled_ids
     )
 
-#student add courses
+# student add courses
 @app.route("/add_course/<int:course_id>")
 def add_course(course_id):
     user_id = session["user_id"]
@@ -102,7 +105,7 @@ def add_course(course_id):
 
     return redirect("/student")
 
-#student drop courses
+# student drop courses
 @app.route("/drop_course/<int:course_id>")
 def drop_course(course_id):
     user_id = session["user_id"]
@@ -118,7 +121,7 @@ def drop_course(course_id):
 
     return redirect("/student")
 
-#teacher page
+# teacher page
 @app.route("/teacher")
 def teacher():
     user = User.query.get(session["user_id"])
@@ -133,7 +136,7 @@ def teacher():
         courses=courses
     )
 
-#shows teacher class dashboard
+# teacher course dashboard
 @app.route("/course/<int:course_id>", methods=["GET", "POST"])
 def course(course_id):
     course = Course.query.get(course_id)
@@ -159,13 +162,73 @@ def course(course_id):
         students=students
     )
 
-###login user information and courses###
+# admin dashboard
+@app.route("/admin")
+def admin():
+    users = User.query.all()
+    courses = Course.query.all()
+    enrollments = Enrollment.query.all()
+
+    return render_template(
+        "admin.html",
+        users=users,
+        courses=courses,
+        enrollments=enrollments
+    )
+
+# admin adds a new course
+@app.route("/admin/add_course", methods=["POST"])
+def admin_add_course():
+    course = Course(
+        name=request.form["name"],
+        teacher=request.form["teacher"],
+        time=request.form["time"],
+        capacity=int(request.form["capacity"])
+    )
+
+    db.session.add(course)
+    db.session.commit()
+
+    return redirect("/admin")
+
+# admin deletes a course
+@app.route("/admin/delete_course/<int:course_id>")
+def admin_delete_course(course_id):
+    course = Course.query.get(course_id)
+
+    enrollments = Enrollment.query.filter_by(course_id=course_id).all()
+
+    for enrollment in enrollments:
+        db.session.delete(enrollment)
+
+    db.session.delete(course)
+    db.session.commit()
+
+    return redirect("/admin")
+
+# admin deletes a user
+@app.route("/admin/delete_user/<int:user_id>")
+def admin_delete_user(user_id):
+    user = User.query.get(user_id)
+
+    enrollments = Enrollment.query.filter_by(student_id=user_id).all()
+
+    for enrollment in enrollments:
+        db.session.delete(enrollment)
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect("/admin")
+
+# login user information and courses
 def seed_data():
     if User.query.count() == 0:
         users = [
             User(username="student", password="student", name="Student", role="student"),
             User(username="student2", password="student2", name="Student2", role="student"),
-            User(username="teacher", password="teacher", name="Teacher", role="teacher")
+            User(username="teacher", password="teacher", name="Teacher", role="teacher"),
+            User(username="admin", password="admin", name="Admin", role="admin")
         ]
 
         courses = [
@@ -174,7 +237,7 @@ def seed_data():
             Course(name="Math 101", teacher="Ralph Jenkins", time="MWF 10:00-10:50 AM", capacity=8),
             Course(name="CS 162", teacher="Teacher", time="TR 3:00-3:50 PM", capacity=1)
         ]
-        
+
         db.session.add_all(users)
         db.session.add_all(courses)
         db.session.commit()
