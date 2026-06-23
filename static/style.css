@@ -9,8 +9,6 @@ body {
     color: #1f2937;
 }
 
-/* LOGIN PAGE */
-
 .login-page {
     min-height: 100vh;
     display: flex;
@@ -131,7 +129,6 @@ header a {
     padding: 40px;
 }
 
-/* Show Selected Tab */
 
 #your-tab:checked ~ .your-panel {
     display: block;
@@ -141,7 +138,6 @@ header a {
     display: block;
 }
 
-/* Active Tab Color */
 
 #your-tab:checked ~ .tabs label[for="your-tab"] {
     background-color: #4778c7;
@@ -163,7 +159,6 @@ header a {
     background-color: #b7c9e8;
 }
 
-/* TABLES */
 
 table {
     width: 100%;
@@ -189,7 +184,6 @@ tr:nth-child(even) {
     background-color: #f5f5f5;
 }
 
-/* BUTTONS */
 
 .add {
     background-color: #4CAF50;
