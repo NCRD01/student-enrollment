@@ -9,6 +9,7 @@ body {
     color: #1f2937;
 }
 
+/*login page*/ 
 .login-page {
     min-height: 100vh;
     display: flex;
@@ -67,8 +68,7 @@ body {
     font-weight: bold;
 }
 
-/* STUDENT PAGE */
-
+/*students page*/ 
 .container {
     width: 90%;
     max-width: 1300px;
@@ -129,7 +129,6 @@ header a {
     padding: 40px;
 }
 
-
 #your-tab:checked ~ .your-panel {
     display: block;
 }
@@ -137,7 +136,6 @@ header a {
 #add-tab:checked ~ .add-panel {
     display: block;
 }
-
 
 #your-tab:checked ~ .tabs label[for="your-tab"] {
     background-color: #4778c7;
@@ -159,11 +157,11 @@ header a {
     background-color: #b7c9e8;
 }
 
-
 table {
     width: 100%;
     border-collapse: collapse;
     background-color: white;
+    margin-top: 20px;
 }
 
 th {
@@ -183,7 +181,6 @@ td {
 tr:nth-child(even) {
     background-color: #f5f5f5;
 }
-
 
 .add {
     background-color: #4CAF50;
@@ -207,9 +204,7 @@ tr:nth-child(even) {
     color: red;
     font-weight: bold;
 }
-
-/* TEACHER PAGE */
-
+/*teacher page*/ 
 .course-info {
     background-color: white;
     padding: 20px;
@@ -233,4 +228,24 @@ tr:nth-child(even) {
 input[type="number"] {
     width: 80px;
     padding: 5px;
+}
+/*admin page*/ 
+.admin-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.admin-form input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.admin-form button {
+    padding: 10px 18px;
+    background-color: #4778c7;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
