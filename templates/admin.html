@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <p>Welcome Admin!</p>
+        <h1>UC Merced</h1>
+        <a href="/logout">Sign out</a>
+    </header>
+
+    <h2>Admin Dashboard</h2>
+
+    <h3>Add New Course</h3>
+
+    <form method="POST" action="/admin/add_course" class="admin-form">
+        <input type="text" name="name" placeholder="Course Name" required>
+        <input type="text" name="teacher" placeholder="Teacher" required>
+        <input type="text" name="time" placeholder="Time" required>
+        <input type="number" name="capacity" placeholder="Capacity" required>
+        <button type="submit">Add Course</button>
+    </form>
+
+    <h3>All Courses</h3>
+
+    <table>
+        <tr>
+            <th>Course Name</th>
+            <th>Teacher</th>
+            <th>Time</th>
+            <th>Capacity</th>
+            <th>Delete</th>
+        </tr>
+
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.name }}</td>
+            <td>{{ course.teacher }}</td>
+            <td>{{ course.time }}</td>
+            <td>{{ course.capacity }}</td>
+            <td>
+                <a class="drop" href="/admin/delete_course/{{ course.id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>All Users</h3>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Delete</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+                <a class="drop" href="/admin/delete_user/{{ user.id }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>
