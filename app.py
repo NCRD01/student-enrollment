@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_sqlalchemy import SQLAlchemy
 
+#flask
 app = Flask(__name__)
 app.secret_key = "secretkey"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///students.db"
 db = SQLAlchemy(app)
 
-
+#stores users into database (students and teachers)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50))
@@ -15,23 +16,23 @@ class User(db.Model):
     name = db.Column(db.String(100))
     role = db.Column(db.String(20))
 
-
+#stores course information
 class Course(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    teacher = db.Column(db.String(100))
-    time = db.Column(db.String(100))
-    capacity = db.Column(db.Integer)
-    enrollments = db.relationship("Enrollment", backref="course")
+    id = db.Column(db.Integer, primary_key=True) #course ID
+    name = db.Column(db.String(100)) #course name
+    teacher = db.Column(db.String(100)) #course teacher
+    time = db.Column(db.String(100)) #course times
+    capacity = db.Column(db.Integer) #course capacity
+    enrollments = db.relationship("Enrollment", backref="course") #number of enrollments
 
-
+#allows students to enroll into classes 
 class Enrollment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     course_id = db.Column(db.Integer, db.ForeignKey("course.id"))
     grade = db.Column(db.Integer)
 
-
+#login page and redirect to pages based on login information
 @app.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -53,13 +54,13 @@ def login():
 
     return render_template("login.html")
 
-
+#logout button
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-
+#student page
 @app.route("/student")
 def student():
     user = User.query.get(session["user_id"])
@@ -74,7 +75,7 @@ def student():
         enrolled_ids=enrolled_ids
     )
 
-
+#student add courses
 @app.route("/add_course/<int:course_id>")
 def add_course(course_id):
     user_id = session["user_id"]
@@ -101,7 +102,7 @@ def add_course(course_id):
 
     return redirect("/student")
 
-
+#student drop courses
 @app.route("/drop_course/<int:course_id>")
 def drop_course(course_id):
     user_id = session["user_id"]
@@ -117,7 +118,7 @@ def drop_course(course_id):
 
     return redirect("/student")
 
-
+#teacher page
 @app.route("/teacher")
 def teacher():
     user = User.query.get(session["user_id"])
@@ -132,7 +133,7 @@ def teacher():
         courses=courses
     )
 
-
+#shows teacher class dashboard
 @app.route("/course/<int:course_id>", methods=["GET", "POST"])
 def course(course_id):
     course = Course.query.get(course_id)
@@ -158,7 +159,7 @@ def course(course_id):
         students=students
     )
 
-
+###login user information and courses###
 def seed_data():
     if User.query.count() == 0:
         users = [
@@ -173,7 +174,7 @@ def seed_data():
             Course(name="Math 101", teacher="Ralph Jenkins", time="MWF 10:00-10:50 AM", capacity=8),
             Course(name="CS 162", teacher="Teacher", time="TR 3:00-3:50 PM", capacity=1)
         ]
-
+        
         db.session.add_all(users)
         db.session.add_all(courses)
         db.session.commit()
