@@ -21,7 +21,7 @@ body {
     background-color: white;
     padding: 35px;
     border-radius: 14px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
     text-align: center;
 }
 
@@ -40,8 +40,8 @@ body {
     border-radius: 6px;
 }
 
-.login-card button,
-button {
+.login-card button {
+    width: 100%;
     padding: 13px;
     background-color: #4778c7;
     color: white;
@@ -51,21 +51,15 @@ button {
     cursor: pointer;
 }
 
-.login-card button {
-    width: 100%;
-}
-
-.login-card button:hover,
-button:hover {
+.login-card button:hover {
     background-color: #315fa5;
 }
 
 .demo-info {
-    margin-top: 25px;
-    padding: 15px;
+    margin-top: 20px;
     background-color: #f3f6fb;
+    padding: 15px;
     border-radius: 8px;
-    font-size: 14px;
 }
 
 .demo-info p {
@@ -78,12 +72,12 @@ button:hover {
 }
 
 .container {
-    width: 900px;
-    margin: 60px auto;
-    background-color: white;
-    border-radius: 14px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 1150px;
+    margin: 40px auto;
+    background-color: #dbe4f3;
     padding: 30px;
+    border: 2px solid #4778c7;
 }
 
 header {
@@ -93,71 +87,94 @@ header {
 }
 
 header h1 {
-    color: #1f4f91;
+    color: black;
+    font-size: 50px;
 }
 
-header a {
-    color: #1f4f91;
+header p {
+    font-size: 20px;
     font-weight: bold;
 }
 
-h2 {
-    text-align: center;
-    background-color: #4778c7;
-    color: white;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 30px;
+header a {
+    color: #2f5fa8;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.course-info {
-    background-color: #f3f6fb;
+.tab-box {
+    margin-top: 30px;
+    background-color: #4778c7;
+    border: 2px solid #2f5fa8;
+    min-height: 500px;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tab {
+    width: 50%;
+    text-align: center;
     padding: 18px;
-    border-radius: 8px;
-    margin-top: 20px;
+    font-size: 20px;
+    background-color: #b7c9e8;
+    border: 1px solid #2f5fa8;
+}
+
+.tab.active {
+    background-color: #4778c7;
+    color: white;
+    font-weight: bold;
+}
+
+.tab-content {
+    padding: 40px;
+}
+
+.tab-content h3 {
+    color: white;
+    margin-bottom: 15px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 30px;
+    background-color: white;
 }
 
 th {
-    background-color: #91ace0;
+    background-color: #8ca7d8;
     color: white;
-    padding: 12px;
+    padding: 14px;
     text-align: left;
+    font-size: 18px;
 }
 
 td {
-    background-color: #d5dbec;
-    padding: 12px;
-    border: 1px solid white;
+    padding: 14px;
+    border: 1px solid #ddd;
+    font-size: 18px;
 }
 
-tr:nth-child(even) td {
-    background-color: #eef1f8;
-}
-
-td:last-child {
-    text-align: center;
+tr:nth-child(even) {
+    background-color: #f7f9fc;
 }
 
 .add {
-    background-color: #4778c7;
+    background-color: #4CAF50;
     color: white;
-    padding: 8px 14px;
-    border-radius: 4px;
+    padding: 8px 15px;
     text-decoration: none;
+    border-radius: 5px;
 }
 
 .drop {
-    background-color: #c74747;
+    background-color: #e74c3c;
     color: white;
-    padding: 8px 14px;
-    border-radius: 4px;
+    padding: 8px 15px;
     text-decoration: none;
+    border-radius: 5px;
 }
 
 .full {
@@ -165,21 +182,32 @@ td:last-child {
     font-weight: bold;
 }
 
-.back {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 20px;
-    text-decoration: none;
-    color: #4778c7;
-    font-weight: bold;
+.course-info {
+    background-color: #f3f6fb;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
 }
 
-input[type="number"] {
-    width: 90px;
-    padding: 8px;
+.back {
+    text-decoration: none;
+    font-weight: bold;
+    color: #4778c7;
+    display: inline-block;
+    margin-bottom: 15px;
 }
 
 .save-btn {
-    display: block;
-    margin: 25px auto;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #4778c7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+input[type="number"] {
+    width: 80px;
+    padding: 5px;
 }
