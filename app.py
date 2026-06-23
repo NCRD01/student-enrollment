@@ -164,7 +164,7 @@ def seed_data():
     if User.query.count() == 0:
         users = [
             User(username="student", password="student", name="Student", role="student"),
-            User(username="student2", password="student", name="Student Two", role="student"),
+            User(username="student2", password="student2", name="Student2", role="student"),
             User(username="teacher", password="teacher", name="Teacher", role="teacher")
         ]
 
