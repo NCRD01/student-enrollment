@@ -7,41 +7,94 @@
 <body>
 
 <div class="container">
+
     <header>
         <p>Welcome Student!</p>
         <h1>ACME University</h1>
         <a href="/logout">Sign out</a>
     </header>
 
-    <h2>Available Courses</h2>
+    <div class="tab-box">
 
-    <table>
-        <tr>
-            <th>Course Name</th>
-            <th>Teacher</th>
-            <th>Time</th>
-            <th>Students Enrolled</th>
-            <th>Action</th>
-        </tr>
+        <div class="tabs">
+            <div class="tab active">
+                Your Courses
+            </div>
 
-        {% for course in courses %}
-        <tr>
-            <td>{{ course.name }}</td>
-            <td>{{ course.teacher }}</td>
-            <td>{{ course.time }}</td>
-            <td>{{ course.enrollments|length }}/{{ course.capacity }}</td>
-            <td>
-                {% if course.id in enrolled_ids %}
-                    <a class="drop" href="/drop_course/{{ course.id }}">Drop</a>
-                {% elif course.enrollments|length >= course.capacity %}
-                    <span class="full">Full</span>
-                {% else %}
-                    <a class="add" href="/add_course/{{ course.id }}">Add</a>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+            <div class="tab">
+                Add Courses
+            </div>
+        </div>
+
+        <div class="tab-content">
+
+            <h3>Your Current Courses</h3>
+
+            <table>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Teacher</th>
+                    <th>Time</th>
+                    <th>Students Enrolled</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for course in courses %}
+                    {% if course.id in enrolled_ids %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.teacher }}</td>
+                        <td>{{ course.time }}</td>
+                        <td>{{ course.enrollments|length }}/{{ course.capacity }}</td>
+                        <td>
+                            <a class="drop" href="/drop_course/{{ course.id }}">
+                                Drop
+                            </a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+
+            <br><br>
+
+            <h3>Add Courses</h3>
+
+            <table>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Teacher</th>
+                    <th>Time</th>
+                    <th>Students Enrolled</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for course in courses %}
+                    {% if course.id not in enrolled_ids %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.teacher }}</td>
+                        <td>{{ course.time }}</td>
+                        <td>{{ course.enrollments|length }}/{{ course.capacity }}</td>
+
+                        <td>
+                            {% if course.enrollments|length >= course.capacity %}
+                                <span class="full">Full</span>
+                            {% else %}
+                                <a class="add" href="/add_course/{{ course.id }}">
+                                    Add
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
 
 </body>
