@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Page</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
@@ -10,25 +10,22 @@
 
     <header>
         <p>Welcome Student!</p>
-        <h1>ACME University</h1>
+        <h1>UC Merced</h1>
         <a href="/logout">Sign out</a>
     </header>
 
     <div class="tab-box">
 
-        <div class="tabs">
-            <div class="tab active">
-                Your Courses
-            </div>
+        <input type="radio" name="tabs" id="your-tab" checked>
+        <input type="radio" name="tabs" id="add-tab">
 
-            <div class="tab">
-                Add Courses
-            </div>
+        <div class="tabs">
+            <label for="your-tab" class="tab">Your Courses</label>
+            <label for="add-tab" class="tab">Add Courses</label>
         </div>
 
-        <div class="tab-content">
-
-            <h3>Your Current Courses</h3>
+        <!-- YOUR COURSES TAB -->
+        <div class="tab-panel your-panel">
 
             <table>
                 <tr>
@@ -54,11 +51,13 @@
                     </tr>
                     {% endif %}
                 {% endfor %}
+
             </table>
 
-            <br><br>
+        </div>
 
-            <h3>Add Courses</h3>
+        <!-- ADD COURSES TAB -->
+        <div class="tab-panel add-panel">
 
             <table>
                 <tr>
@@ -89,6 +88,7 @@
                     </tr>
                     {% endif %}
                 {% endfor %}
+
             </table>
 
         </div>
