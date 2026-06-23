@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Page</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <p>Welcome Teacher!</p>
+        <h1>ACME University</h1>
+        <a href="/logout">Sign out</a>
+    </header>
+
+    <h2>Your Courses</h2>
+
+    <table>
+        <tr>
+            <th>Course Name</th>
+            <th>Teacher</th>
+            <th>Time</th>
+            <th>Students Enrolled</th>
+        </tr>
+
+        {% for course in courses %}
+        <tr>
+            <td><a href="/course/{{ course.id }}">{{ course.name }}</a></td>
+            <td>{{ course.teacher }}</td>
+            <td>{{ course.time }}</td>
+            <td>{{ course.enrollments|length }}/{{ course.capacity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
