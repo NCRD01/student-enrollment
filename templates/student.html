@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+     <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <h1>Student Dashboard</h1>
+
+  
+    <h2>Welcome, {{ user.name }}</h2>
+    <p>User ID: {{ user.id }}</p>
+
+    <hr>
+    <h2>Available Courses</h2>
+
+    {% for course in courses %}
+
+        <div>
+            <h3>{{ course.name }}</h3>
+
+            <p><strong>Teacher:</strong> {{ course.teacher }}</p>
+            <p><strong>Time:</strong> {{ course.time }}</p>
+            <p><strong>Capacity:</strong> {{ course.capacity }}</p>
+
+           
+            {% if course.id in enrolled_ids %}
+
+                <p><strong>Status:</strong> Enrolled</p>
+
+            
+                <a href="/drop_course/{{ course.id }}">
+                    <button>Drop Course</button>
+                </a>
+
+            {% else %}
+
+                <p><strong>Status:</strong> Not Enrolled</p>
+
+                <a href="/add_course/{{ course.id }}">
+                    <button>Enroll</button>
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+    <br>
+
+    <a href="/logout">
+        <button>Logout</button>
+    </a>
+
+</body>
+</html>
